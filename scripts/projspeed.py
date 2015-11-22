@@ -18,13 +18,13 @@ def set_projectile_speed(proj):
 
     speedtag = proj.find('Max_Speed')
     if speedtag is not None:
-        if 'laser' in name or 'ion' in name:
+        if 'laser' in name or '_ion_' in name:
             speedtag.text = '120.0'
             logger.info('Set speed to 120.0')
         else:
             speedval = float(speedtag.text)
-            newspeed = speedval * 6
-            speedtag.text = str(speedval)
+            newspeed = speedval * 8
+            speedtag.text = str(newspeed)
             logger.info('Set speed to %g (from %g)', newspeed, speedval)
 
 GREEN_LASER_COLOR = '129,255,94,255'
@@ -83,6 +83,12 @@ def set_proj_appearance(proj):
         lenval = float(length.text)
         length.text = str(lenval *  4)
 
+def set_proj_damage(proj):
+    damage = proj.find('Projectile_Damage')
+    if damage is not None:
+        dmg = float(damage.text)
+        damage.text = str(dmg * 6)
+
 def execute():
     sourcefile = conf.srcxml / 'projectiles.xml'
     logger.info('Loading from %s', sourcefile)
@@ -94,6 +100,7 @@ def execute():
         set_projectile_speed(proj)
         set_laser_type(proj)
         set_proj_appearance(proj)
+        set_proj_damage(proj)
 
 
     destfile = conf.outxml / 'projectiles.xml'
