@@ -5,6 +5,7 @@ import logging
 import conf
 import loghelp
 import projspeed
+import factionchanges
 
 logger = loghelp.get_logger(__name__)
 
@@ -26,6 +27,7 @@ def main(clean=False):
     conf.outxml.mkdir(parents=True, exist_ok=True)
 
     projspeed.execute()
+    factionchanges.execute()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Scripted Mod Maker')

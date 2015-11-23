@@ -42,13 +42,13 @@ def set_laser_type(proj):
     width = proj.find('Projectile_Width')
     if width is not None:
         if 'heavy' in name:
-            width.text = '4'
-        else:
             width.text = '3'
+        else:
+            width.text = '2'
 
     length = proj.find('Projectile_Length')
     if length is not None:
-        if 'heavy in name':
+        if 'heavy' in name:
             length.text = '30'
         else:
             length.text = '25'
