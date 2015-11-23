@@ -77,7 +77,7 @@ def set_ion_appearance(proj):
     width = proj.find('Projectile_Width')
     if width is not None:
         widval = float(width.text)
-        width.text = str(widval * 1.75)
+        width.text = str(widval * 1)
 
     length = proj.find('Projectile_Length')
     if length is not None:
@@ -104,7 +104,7 @@ def set_proj_damage(proj):
     damage = proj.find('Projectile_Damage')
     if damage is not None:
         dmg = float(damage.text)
-        damage.text = str(dmg * 6)
+        damage.text = str(dmg * 1)
 
 def execute():
     sourcefile = conf.srcxml / 'projectiles.xml'
