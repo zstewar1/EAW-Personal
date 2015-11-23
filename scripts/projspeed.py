@@ -41,11 +41,17 @@ def set_laser_type(proj):
 
     width = proj.find('Projectile_Width')
     if width is not None:
-        width.text = '2'
+        if 'heavy' in name:
+            width.text = '4'
+        else:
+            width.text = '3'
 
     length = proj.find('Projectile_Length')
     if length is not None:
-        length.text = '25'
+        if 'heavy in name':
+            length.text = '30'
+        else:
+            length.text = '25'
 
     texslot = proj.find('Projectile_Texture_Slot')
     if texslot is not None:
@@ -82,7 +88,7 @@ def set_ion_appearance(proj):
     length = proj.find('Projectile_Length')
     if length is not None:
         lenval = float(length.text)
-        length.text = str(lenval *  4)
+        length.text = str(lenval *  3.5)
 
 def set_laser_appearance(proj):
     name = proj.get('Name').lower()
@@ -98,7 +104,7 @@ def set_laser_appearance(proj):
     length = proj.find('Projectile_Length')
     if length is not None:
         lenval = float(length.text)
-        length.text = str(lenval *  4)
+        length.text = str(lenval *  3.5)
 
 def set_proj_damage(proj):
     damage = proj.find('Projectile_Damage')
