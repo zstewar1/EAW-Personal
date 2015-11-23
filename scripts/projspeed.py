@@ -27,56 +27,73 @@ def set_projectile_speed(proj):
             speedtag.text = str(newspeed)
             logger.info('Set speed to %g (from %g)', newspeed, speedval)
 
-GREEN_LASER_COLOR = '129,255,94,255'
-RED_LASER_COLOR = '255,61,44,255'
-ION_COLOR = '104,181,230,255'
-
 def set_laser_type(proj):
     name = proj.get('Name').lower()
 
-    if 'laser' not in name:
+    if 'turbolaser' not in name:
         return
 
-    model = proj.find('Space_Model_Name')
-    if model is not None:
-        proj.remove(model)
+    model = etree.SubElement(proj, 'Space_Model_Name')
+    if 'green' in name:
+        model.text = 'W_LASER_LARGEG.ALO'
+    else:
+        model.text = 'W_LASER_LARGE.ALO'
+
+    width = proj.find('Projectile_Width')
+    if width is not None:
+        width.text = '2'
+
+    length = proj.find('Projectile_Length')
+    if length is not None:
+        length.text = '25'
 
     texslot = proj.find('Projectile_Texture_Slot')
     if texslot is not None:
-        texslot.text = '2,0'
+        if 'green' in name:
+            texslot.text = '3,0'
+        else:
+            texslot.text = '0,0'
 
     custrend = proj.find('Projectile_Custom_Render')
     if custrend is not None:
-        custrend.text = '2'
+        custrend.text = '1'
 
     color = proj.find('Projectile_Laser_Color')
-    if color is None:
-        color = etree.SubElement(proj, 'Projectile_Laser_Color')
+    if color is not None:
+        proj.remove(color)
 
-    if 'green' in name:
-        color.text = GREEN_LASER_COLOR
-    elif 'red' in name:
-        color.text = RED_LASER_COLOR
+ION_COLOR = '104,181,230,255'
 
-def set_proj_appearance(proj):
+def set_ion_appearance(proj):
     name = proj.get('Name').lower()
 
-    if 'laser' not in name and 'ion' not in name:
+    if '_ion_' not in name:
         return
 
     color = proj.find('Projectile_Laser_Color')
     if color is not None:
-        if 'green' in name:
-            color.text = GREEN_LASER_COLOR
-        elif 'red' in name:
-            color.text = RED_LASER_COLOR
-        elif 'ion' in name:
-            color.text = ION_COLOR
+        color.text = ION_COLOR
 
     width = proj.find('Projectile_Width')
     if width is not None:
         widval = float(width.text)
         width.text = str(widval * 1.75)
+
+    length = proj.find('Projectile_Length')
+    if length is not None:
+        lenval = float(length.text)
+        length.text = str(lenval *  4)
+
+def set_laser_appearance(proj):
+    name = proj.get('Name').lower()
+
+    if 'laser' not in name:
+        return
+
+    width = proj.find('Projectile_Width')
+    if width is not None:
+        widval = float(width.text)
+        width.text = str(widval * 1)
 
     length = proj.find('Projectile_Length')
     if length is not None:
@@ -99,7 +116,8 @@ def execute():
         logger.info('Changing projectile %s', proj.get('Name'))
         set_projectile_speed(proj)
         set_laser_type(proj)
-        set_proj_appearance(proj)
+        set_ion_appearance(proj)
+        set_laser_appearance(proj)
         set_proj_damage(proj)
 
 
